@@ -1,0 +1,44 @@
+<!-- pagination starts -->
+<div class="mod pagination">
+<div class="resultsSummary">
+    <p class="resultsNumber">Listing items {{ items.start_index }} to {{ items.end_index }}, page {{ items.number }} of {{ items.paginator.num_pages }}</p>
+    <ul class="inline resultsNav">
+	
+		{% if items.has_previous %}
+			<li><a class="ctrl resultsBrowse first" href="?page=1&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">&laquo; First</a></li>
+	        <li><a class="ctrl resultsBrowse prev" href="?page={{ items.previous_page_number }}&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">&laquo; Previous</a></li>
+		{% else %}
+			<li class="s5">&laquo; First</li>
+			<li class="s5">&laquo; Previous</li>
+	    {% endif %}
+
+
+
+		{% for el in items.extrastuff %}
+
+			{% ifequal el items.number %}
+				<li class="selected">{{ el }}</li>
+			{% else %}
+				<li><a href="?page={{el}}&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}" class="ctrl result">{{ el }}</a></li>
+			{% endifequal %}
+
+		{% endfor %}
+		
+		
+
+
+
+		{% if items.has_next %}
+			<li><a class="ctrl resultsBrowse next" href="?page={{ items.next_page_number }}&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">Next &raquo;</a></li>
+			<li><a class="ctrl resultsBrowse next" href="?page={{ items.paginator.num_pages }}&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">Last &raquo;</a></li>
+		{% else %}
+			<li>Next &raquo;</li>
+			<li>Last &raquo;</li>
+	    {% endif %}
+	
+			
+    </ul>
+</div>
+</div> <!-- pagination ends -->
+
+

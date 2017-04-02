@@ -1,0 +1,56 @@
+Settings Options
+************************
+
+
+if hasattr(settings, 'DJF_CACHE'):
+	DJF_CACHE = settings.DJF_CACHE
+else:
+	DJF_CACHE = False
+	
+if hasattr(settings, 'DJFACET_COUNT'):
+	DJFACET_COUNT = settings.DJFACET_COUNT
+else:
+	DJFACET_COUNT = False	
+	
+	
+if hasattr(settings, 'DJFACET_TEST'):
+	DJFACET_TEST = settings.DJFACET_TEST
+else:
+	DJFACET_TEST = False
+
+if hasattr(settings, 'DJFACET_RAMCACHE'):
+	DJFACET_RAMCACHE = settings.DJFACET_RAMCACHE
+else:
+	DJFACET_RAMCACHE = False
+	
+
+if hasattr(settings, 'DJF_AJAX'):
+	DJF_AJAX = settings.DJF_AJAX
+else:
+	DJF_AJAX = False	
+	
+	
+if hasattr(settings, 'DJF_MAXRES_PAGE'):
+	DJF_MAXRES_PAGE = settings.DJF_MAXRES_PAGE
+else:
+	DJF_MAXRES_PAGE = 50	
+
+
+if hasattr(settings, 'DJ_2COLUMNS_INNERFACET'):
+	DJ_2COLUMNS_INNERFACET = settings.DJ_2COLUMNS_INNERFACET
+else:
+	DJ_2COLUMNS_INNERFACET = False
+	
+
+
+if hasattr(settings, 'DJF_SHOWLOGS'):
+	DJF_SHOWLOGS = settings.DJF_SHOWLOGS
+else:
+	DJF_SHOWLOGS = False
+
+
+
+if hasattr(settings, 'DJF_SPECS_MODULE'):
+	DJF_SPECS_MODULE = settings.DJF_SPECS_MODULE
+else:
+	DJF_SPECS_MODULE = 'facetspecs'

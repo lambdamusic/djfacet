@@ -1,0 +1,32 @@
+
+	<h1>You searched: <span style="font-style: bold;">{{result_type}}</span></h1>
+
+<hr>
+
+		
+		{% if expl_dict %}
+
+
+			{% for val, explanation in expl_dict.items reversed %}
+
+		      <dt>==> Filter selected: <i>{{val}}</i></dt>
+		      <dd>Action: {{explanation}}</dd>
+
+			{% endfor %}
+			<hr>
+			<br /><br />
+			<p>
+				<img src='/static/img/poms_entities.png' align="middle" alt='loading data' width="500" height="300"/>
+			</p>
+
+
+		{% else %}
+
+		<dt>You don't have any term selected.... nothing to explain!</dt>
+
+		{% endif %}
+		
+
+
+
+

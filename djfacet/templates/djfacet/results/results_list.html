@@ -1,0 +1,39 @@
+{# ################## #}
+{# #   							       #}
+{# #  RESULTS OF A SEARCH 			   #}
+{# # 								   #}
+{# ################## #}
+
+
+<!-- hidden fields useful to store data -->
+<input type="hidden" id="active_ordering" value="default" />
+<input type="hidden" id="refresh_facets" value="" />
+<!-- end of hidden fields -->
+
+
+{% if totitems %}
+
+{% else %}
+
+{% endif %}
+
+
+
+{% if items.object_list  %}
+		
+	<h1>Matching *{{result_typeObj.label|capfirst}}* Records (<span id="rec_num">{{totitems|default:"None"}}</span>)</h1>
+		
+	{% include table_template %}
+	
+	{% include "djfacet/results/snippet_respagination.html" %}
+
+{% else %}
+
+	<h1>No results..</h1>
+	
+	{% include "djfacet/results/snippet_noresults.html" %}
+
+{% endif %}
+
+
+

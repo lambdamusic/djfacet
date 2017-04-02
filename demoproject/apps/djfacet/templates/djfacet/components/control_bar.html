@@ -1,0 +1,64 @@
+{% load djf_tags %}
+
+<!-- result type starts -->
+<div class="line resultType">
+    <ul class="inline">
+	
+	
+		<li>Searching for:&nbsp;&nbsp;<b class="activeResType">{{result_typeObj.label|capfirst}}</b>
+			{% for test_result_type in result_types %}
+				{% ifnotequal test_result_type.uniquename  result_typeObj.uniquename %}				
+					 &nbsp;|&nbsp;				
+				<a href="?resulttype={{test_result_type.uniquename}}{{newurl_stub}}" id="{{test_result_type.uniquename}}" title="Change the search perspective so to focus on {{test_result_type.label|capfirst}}" >{{test_result_type.label|capfirst}}</a>&nbsp;
+
+				{% endifnotequal %}
+
+			{% endfor %}
+			
+		<span class="tip infoTip" title="Changing the main type of object being searched for will update the available search filters."></span>
+		</li>
+		
+		
+		{% if query_filtersBuffer %}
+		
+			
+		    <li>Current filter{{ query_filtersBuffer|pluralize }}:</li>
+
+				{% for facetValue in  query_filtersBuffer %}
+
+					<li><span class="activeFilter">
+						{% if facetValue.father %}
+							<a title="Select the parent filter" href="?resulttype={{result_typeObj.uniquename}}&amp;filter={{facetValue.father}}
+								{% for fv in query_filtersBuffer %}
+									{% ifnotequal fv.id  facetValue.id  %}
+										&amp;filter={{fv.id}}
+									{% endifnotequal %}
+								{% endfor %}"		
+							class="fatherfacet">{{facetValue|extract_father}}</a> &gt;&gt;
+						{% endif %}
+						<b>{{facetValue.displayname}}</b> ({{facetValue.facet.name}}) 	<a id="remove_button" class="tip infoTip" title="Remove this filter" href="?resulttype={{result_typeObj.uniquename}}
+								{% for fv in query_filtersBuffer %}
+									{% ifnotequal fv.id  facetValue.id  %}
+										&amp;filter={{fv.id}}
+									{% endifnotequal %}
+								{% endfor %}">r</a></span>&nbsp;
+					
+					{% if not forloop.last %}
+						
+					|
+					{% endif %}
+
+				{% endfor %}
+							
+			</li>
+		                                   
+			
+		{% endif  %}
+
+
+	    </ul>       
+	</div><!-- result type ends -->
+	
+	
+
+        

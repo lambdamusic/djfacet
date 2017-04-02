@@ -1,0 +1,23 @@
+<table class="simple headersX">
+    <tbody>
+        <tr>
+			<th>ID</th>
+	        <th>Name</th>
+	        <th>In Region</th>
+		    <th>TOT. Number of Related Religions</th>
+        </tr>
+		{% for record in items.object_list %}
+		<tr>
+			<td>{{record.id}}</td>
+	        <td><a href="?resulttype={{result_typeObj.uniquename}}&amp;item={{record.id}}{{newurl_stub}}" title="show details">
+				{{record|capfirst|default:"<i>item empty (check DB for deletion)</i>"}}
+		    	</a></td>
+			<td>{{record.inregion}}</td>
+			<td>{{ record.religions.all|length }}</td>
+      	</tr>
+		{% endfor %}
+
+    </tbody>
+
+
+</table>

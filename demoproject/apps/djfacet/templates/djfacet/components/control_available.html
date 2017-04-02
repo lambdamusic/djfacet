@@ -1,0 +1,57 @@
+
+{# ################## #}
+{# #   							       #}
+{# #  FACETS CHOOSER , BOTTOM LEFT     #}
+{# # 								   #}
+{# ################## #}
+
+
+
+
+<div class="filtersAvailable">
+	{# <h3>Filters available</h3> #}
+	<h5>Choose more filters in order to narrow down your query further:</h5>
+</div>
+
+<section class="facetPanel"><!-- facet panel -->
+    
+	{# we have a list of tuples like this: #}
+	{# [(<FacetsGroup1>, [(<Facet1>, [[<FacetValue1>, <FacetValue2>], [<FacetValue3>, <FacetValue4>]]), ('troupe country', [etc..])]), (......)] #}   
+
+	{% for facetgroup, facet_and_values in facetgroups_and_facets reversed %}
+
+
+	<div class="facetType {{facetgroup.uniquename}} {% cycle "red" "gray" "green" "purple" "blue" "brown" %}">  {# there is also {{facetgroup.bkcolor}} #}
+        <h2 id="{{facetgroup.uniquename}}" class="to_collapse {{facetgroup.uniquename}}_tip">{{facetgroup.label|upper}}</h2>
+            {% for tuple in facet_and_values %}  
+
+			{% with tuple.0 as facet %}
+			{% with tuple.1 as facetvalues %}
+			
+	
+  	        <section id="{{facet.uniquename}}" class="facetListing {% if facet.mptt %}istreefacet{% endif %}">
+	            <h3><span class="openclosefacet closeFacet">-</span>&nbsp;{{facet.name|capfirst}}</h3>
+	
+				{% block inner_facet_values %}  								
+
+					{% include "djfacet/components/snippet_facet.html" %}
+
+						
+				{% endblock %}
+
+	        </section>  <!-- end of {{facet.uniquename}} section  -->
+	
+
+	
+			{% endwith %}
+			{% endwith %}
+			{% endfor %}
+
+	 </div>  <!-- end of {{facetgroup.uniquename}} section  -->
+
+{% endfor %}
+</section>  
+
+
+
+

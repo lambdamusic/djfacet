@@ -1,0 +1,124 @@
+{% extends "djfacet/base.html" %}
+{% load djf_tags %}
+
+{% block header %}
+	
+	
+		{# HEADER INFORMATION #}
+		
+					
+			{% include "djfacet/components/header.html" %}
+			
+			
+			{% include "djfacet/components/navbar.html" %}
+
+	
+			{% include "djfacet/components/control_bar.html" %}
+			
+			
+          {# END OF  HEADER  #}
+			
+			
+	
+{% endblock %}
+
+
+
+
+{% block contents %}
+		
+		
+		
+		{% with facetvalues|fvlist_formatter as facetvalues_formatted  %}
+		
+		
+	    <div class="line contentSection AtoZ">
+
+
+
+			{# CLICKABLE HEADER  #}
+			{% include "djfacet/components/control_breadcrumbs.html" %}
+
+
+			{# ALPHA INDEX  #}
+			
+			{% if facet.show_singlefacet_header %}
+
+				<section>
+		            <ul class="inline">
+
+						{% for initial, valuesgroup in facetvalues_formatted  %}
+		                	<li><a class="ctrl" title="Beginning with {{initial}}" href="#{{initial}}">{{initial}}</a></li>	
+							{# ADD SELECTED ROUTINE! 	#}
+							{# 	<li><a class="ctrl selected" title="Beginning with B" href="#B">B</a></li>	#}
+						{% endfor %}
+
+		            </ul>
+		        </section>
+		        
+			{% else %}
+				<br />
+			{% endif %}
+	
+	
+	
+		
+			{# CONTENTS: FACETVALUES LIST  #}
+			
+
+			{% for initial, valuesgroup in facetvalues_formatted  %}
+
+			
+				<div class="line" id="{{initial}}"> <!-- {{initial}} starts -->
+		            <h2 class="border">{{initial}}</h2>
+				
+				{% for group in valuesgroup  %}
+					<div class="unit size1of2">
+			        <ul>
+					{% for facetvalue in group  %}
+					
+						{% ifnotequal facetvalue.howmany  totitems  %}
+											
+			            <li>{% if facetvalue.father %}<span class="fatherfacet">{{facetvalue|extract_father}}</span> &gt; {% endif %} 
+					<a href="{{url_prefix}}?filter={{facetvalue.id}}&amp;resulttype={{result_typeObj.uniquename}}&amp;ordering={{ordering}}{{newurl_stub}}"  id="{{facetgroup.uniquename}}_{{facetvalue.id}}" class="{{facet.name}} active" 
+							title="{% if facetvalue.subspreview  %}Subcategories:{% for e in facetvalue.subspreview %}&#13;{{e.name}}{% endfor %}	
+									{% else %}No subcategories{% endif %}">{{facetvalue.displayname|capfirst|default:"---"}} ({{facetvalue.howmany|default:"0"}})</a> 
+					{% if facetvalue.subspreview  %}<a href="?resulttype={{result_typeObj.uniquename}}&amp;ordering={{ordering}}&amp;showsubs={{facetvalue.id}}{{newurl_stub}}" title="Subcategories:{% for e in facetvalue.subspreview %}&#13;{{e.name}}{% endfor %}"><span class="graytext">&rarr; show subcategories</span></a>{% endif %}</li>
+						
+						{% else %}	
+						
+							<li><a class="inactive" title="Filter inactive because your search already produced {{totitems}} results">{{facetvalue.displayname|capfirst|default:"---"}} ({{facetvalue.howmany|default:"0"}})</a></li>							
+
+						{% endifnotequal %}
+			
+					{% endfor %}
+					
+					</ul>
+					</div><!-- column ends -->	
+			
+				{% endfor %}
+
+
+				</div><!-- {{initial}} ends -->
+
+
+			{% endfor %}
+			
+
+	</div>  <!-- A TO Z DIV ENDS -->
+
+	{% endwith %}
+
+
+
+	{# END OF CONTENTS #}
+
+
+{% endblock %}
+
+
+
+
+
+
+

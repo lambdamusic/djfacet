@@ -1,0 +1,21 @@
+<h2>Hello world...</h2>
+<h3>This is a demo of DjFacet - a faceted search engine built on top of Django.</h3>
+<li>Ok <a href="djfacet/">let's take a look!</a></li>
+<li>Mmm too early, I'd better <a href="http://michelepasin.org/support/djfacet/docs/">browse the docs</a> first.</li>
+
+
+
+<br /><br /><br /><br />
+<hr />
+<h3>Currently Active DjFacet Options:</h3>
+
+
+
+<table border="1" cellspacing="2" cellpadding="5">
+	<tr><th>Name</th><th>Value</th></tr>
+	{% for couple in parameters_peek  %}
+		<tr><td style="color: blue;">{{couple.0}}</td>
+			<td style="color: red;">{{couple.1}}</td></tr>
+	{% endfor %}
+	
+</table>

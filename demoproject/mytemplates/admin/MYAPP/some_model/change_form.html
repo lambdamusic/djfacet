@@ -1,0 +1,12 @@
+{% extends "admin/change_form.html" %} 
+{% load myadmin_tags %} 
+{% block related_items_block %}
+<h2>Additional information:</h2><br />
+
+  	{% if object_id %}
+		{% display_charterfactoids object_id %}
+	{% endif %} 
+	
+ {% endblock %}
+
+

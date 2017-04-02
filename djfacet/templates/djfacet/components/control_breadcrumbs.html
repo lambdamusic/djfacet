@@ -1,0 +1,36 @@
+{% load djf_tags %}
+
+
+
+<h2>
+	
+	{# MIDDLE OF A SEARCH #}
+	
+	{% if query_filtersBuffer %}
+		<a href="{{url_prefix}}?resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">Search Results</a>&nbsp;>>&nbsp;
+	
+	{# BEGINNING OF A SEARCH #}
+	
+	{% else %}
+		<a href="{{url_prefix}}allfacets/?resulttype={{result_typeObj.uniquename}}">All</a>&nbsp;>>&nbsp;
+	{% endif %}
+
+
+
+	{% if tree %}
+	<a href="?resulttype={{result_typeObj.uniquename}}&amp;ordering={{ordering}}{{newurl_stub}}">{{facet.name|title}}</a>&nbsp;>>&nbsp;{% for v in tree %}
+		{% if not forloop.last %}
+			 <a href="?resulttype={{result_typeObj.uniquename}}&amp;ordering={{ordering}}&amp;showsubs={{v.id}}{{newurl_stub}}">{{v.name|title}}</a>&nbsp;>>&nbsp;  
+			{% else %}
+				{{v.name|title}}
+			{% endif %}
+		{% endfor %}
+	</h2>
+	
+	{% else %}
+
+		{{facet.name|title}}
+	
+	{% endif %}
+	
+</h2>	

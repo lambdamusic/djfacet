@@ -1,0 +1,126 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]--> 
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en"> <![endif]--> 
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+    <head>
+        <title>DJfacet: a faceted browser that'll get you going in no time</title>
+        <!-- jquery from Google CDN -->
+        <script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/jquery-1.5.1.min.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/jquery.tools.min.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/css/base.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/css/site.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/css/mod.css" />
+        <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/css/typography.css" />
+        
+        
+        <!-- Modernizr: this should be called AFTER CSS to avoid FOUC
+            For dev purposes use /_a/s/libs/modernizr-dev.js
+        -->
+        <script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/modernizr-dev.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/jquery.blockUI2.31.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/jquery.tipsy.js"></script>
+		<script type="text/javascript" src="{{ STATIC_URL }}{{DJF_STATIC_PATH}}/js/djfacet.js"></script>		
+
+  
+		
+		<script type="text/javascript">
+		
+			
+			// ONLOAD FUNCTION
+
+			$(document).ready(function() {
+
+				toggle_facets();
+				toggle_history();
+				
+				
+				{% if not single_item %}
+				close_history();
+				{% endif %}
+				
+				{% if ajaxflag %}
+					
+					// DEFAULT: all panels are created open - then they get closed at load time via js					
+					close_facets();
+					
+					$(".openclosefacet").bind( "click", function(event, ui) {
+					  // alert("clicked" + $(this)); 
+					updateFacetValues($(this));
+					});
+					
+				{% endif %}
+				
+				/* Tipsy tool tips */
+				   try {
+				       $(".tip").tipsy({
+				           delayIn: 500,
+				           delayOut: 500,
+				           fade: true
+				       });
+				   } catch(e) {
+				       // pass
+				       }
+			});
+
+		
+		</script>
+		
+		
+    </head>
+
+	<body>
+		
+		<div class="hidden">
+            <ul>
+                <li><a href="#contentSection">Skip to content</a></li>
+                <li><a href="#localNavigation">Skip to local navigation</a></li>                
+                <li><a href="#mainNavigation">Skip to main navigation</a></li>
+            </ul>
+
+			{# a couple of useful fields #}
+			<input type="hidden" id="active_restype" name="" value="{{result_typeObj.uniquename}}" />
+			<input type="hidden" id="active_urlstub" name="" value="{{newurl_stub}}" />
+			<input type="hidden" id="blockUImessage1" name="" value="" />
+			
+        </div>
+
+        <!-- WRAPPER STARTS -->
+        <div class="wrapper" id="djfacet_maindiv">
+            
+
+		
+			{% block header %}
+		
+			{% endblock %}
+
+            
+
+			{% block contents %}
+ 
+
+			{% endblock %}
+			
+ 
+          
+
+			{% include "djfacet/components/footer.html" %}
+            
+            
+           
+            
+            
+        </div>
+        
+        <!-- WRAPPER ENDS -->
+        
+		
+	</body>
+</html>
+
+
+

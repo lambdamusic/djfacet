@@ -1,0 +1,86 @@
+{% extends "djfacet/base.html" %}
+{% load djf_tags %}
+
+
+
+
+{% block header %}
+	
+			
+			{% include "djfacet/components/header.html" %}
+
+
+			{% include "djfacet/components/navbar.html" %}
+			
+			
+			{% include "djfacet/components/control_bar.html" %}
+
+
+	
+{% endblock %}
+
+
+
+
+
+
+{% block contents %}
+
+	<!-- RESULT TYPE STARTS -->
+    <div class="line contentSection filterType">
+                <div class="unit size1of4">
+            <div class="mod facetedNavigation">  
+   
+
+				{# {% include "djfacet/components/control_selected.html" %} #}
+
+
+				{% if not single_item %}
+					{% include "djfacet/components/control_available.html" %}
+				{% endif %}
+				
+				
+				{% include "djfacet/components/control_history.html" %}
+                
+            </div>      
+        
+			
+			
+			
+        </div><!-- facetNav ends -->
+
+
+
+        
+        <div id="results" class="unit size3of4 lastUnit">
+            <section class="content">
+	
+				{% if single_item %}
+
+					{% include single_item_template %}
+
+				{% else %}
+
+					{% include "djfacet/results/results_list.html" %}
+
+				{% endif %}
+        
+        	</section>
+                        
+        </div> <!-- results ends -->
+        
+        
+    </div><!-- Result type ends -->
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

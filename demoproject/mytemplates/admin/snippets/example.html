@@ -1,0 +1,28 @@
+{% load extrafilters %}
+
+{% if document.factoid_set.all  %}
+
+	<h2>Related factoids: {{document.factoid_set.all.count}} in total (only the latest 30 are shown below)</h2>
+	<br />
+	<table>
+	  <tr>
+	    <th>Record ID</th>
+	    <th>Short Summary</th>
+		<th>Type</th>
+		<th>Last updated</th>
+	  </tr>
+	{# MODIFY THIS: problem was that the pro-anima set has a different link 'factoidtrans' to factoids..#}
+	{#- maybe change the DB/model? if the db fk doesn't break..#}
+	{#- or create a custom method for detecting what assfactoidperson isntance we're dealing with? #}
+	
+	{% for f in document.factoid_set.all|latest_updated|slice:":30" %}
+	  <tr>
+	    <td>{{f.id}}</td>
+	    <td><a href="{% url factoid_detail f.id %}" title="click to show">{{f}}</a></td>
+		<td>{{f.get_right_subclass.0}}</td>
+		<td>{{f.updated_at}}</td>
+	  </tr>
+	{% endfor %}
+	</table>
+	
+{% endif %}

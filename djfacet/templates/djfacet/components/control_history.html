@@ -1,0 +1,57 @@
+{% load djf_tags %}
+
+{# HISTORY PANEL #}
+
+
+
+<div class="activeFilters" id="historyPanel">
+    <h3><span class="openclosehistory">-</span>&nbsp;Recent actions</h3>
+ 
+	<ul id="" class="filtersList inline">
+
+	{% if recent_actions %}
+	
+			{% for action in  recent_actions %}
+
+
+			{% if not forloop.first %}
+				{# dont show the first item as that's what is currently shown already! #}
+					
+					{% ifequal action.0 "single_item"  %}
+						<li id="" class="first"><b>Viewed</b> <span class="activeResType">{{action.1.label}}</span> record: 
+							<br />... <a href="?item={{action.3}}{{action.4}}">{{action.2}}</a></li>
+						<br /><br />
+					{% endifequal %}
+				
+				
+					{% ifequal action.0 "search"  %}
+						<li id="" class="first"><b>Searched</b> for <span class="activeResType">{{action.1.label}}</span> using: 
+						
+							<br />... 
+							<a href="?resulttype={{action.1.uniquename}}{{action.3}}">
+							{% for facetValue in  action.2 %}
+
+								<b>{{facetValue.displayname}}</b> ({{facetValue.facet.name}})</span>&nbsp;
+								{% if not forloop.last %}
+									 &amp;&amp;  
+								{% endif %}
+
+							{% endfor %}
+							</a>
+						
+						<br /><br />
+					{% endifequal %}
+				
+				{% endif %}  {# end of if not forloop.first #}
+				
+			{% endfor %}
+	
+	{% else %}
+	
+		<i>None</i>
+		
+	{% endif %}
+
+	</ul>
+	
+</div>

@@ -1,0 +1,57 @@
+{% load djf_tags %}
+
+{# ################## #}
+{# #   							       #}
+{# #  LEFT PANEL: SELECTED FACET VALUES #}
+{# # 								   #}
+{# ################## #}
+
+
+<div class="activeFilters" id="active-filters">
+    <h3>Selected Filters <span class="no_facets"><a id="empty_controls" href="?resulttype={{result_typeObj.uniquename}}" title="Remove all terms">(reset)</a></span></h3>
+  
+
+{% if query_filtersBuffer %}
+	<ul id="active_filters2" class="filtersList inline">
+		{% for facetValue in  query_filtersBuffer %}
+
+{# [** this routine dynamically removes from the query-url-stub the facetvalue currently printed **] #}
+{# for each facetvalue active in the current query-url, rebuilds the REMOVE action url #}
+{# by doing so, the url generate can be effectively used as an 'ADD' url too! #}
+
+		<li id="{{facetValue.id}}" class="first">{{facetValue.facet.group.label}} &gt;&gt;</li>
+		<li>{{facetValue.facet.name}} &gt;&gt;</li> 
+		{% if facetValue.father %}
+			<li><a href="?resulttype={{result_typeObj.uniquename}}&amp;filter={{facetValue.father}}
+				{% for fv in query_filtersBuffer %}
+					{% ifnotequal fv.id  facetValue.id  %}
+						&amp;filter={{fv.id}}
+					{% endifnotequal %}
+				{% endfor %}"		
+			class="fatherfacet">{{facetValue|extract_father}}</a> &gt;&gt;</li>
+		{% endif %}
+		<li class="selected">{{facetValue.displayname}}
+			<a id="remove_button" title="Remove this term" href="?resulttype={{result_typeObj.uniquename}}
+				{% for fv in query_filtersBuffer %}
+					{% ifnotequal fv.id  facetValue.id  %}
+						&amp;filter={{fv.id}}
+					{% endifnotequal %}
+				{% endfor %}">[remove]</a>
+		</li>
+		
+		<br /><br />
+
+
+		{% endfor %}
+	</ul>
+{% else %}
+
+	<ul>
+		<li class="no_facets">none</li>
+	</ul>
+
+{% endif  %}
+
+  
+
+</div>

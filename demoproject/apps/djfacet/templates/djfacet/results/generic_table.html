@@ -1,0 +1,23 @@
+{# this is a very generic table template for dispalying results of a faceted search #}
+{# you can customize it and save in your local version of djfacet/templates, with the name of the model it applies to #}
+
+
+<table class="simple headersX">
+    <tbody>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+		{% for record in items.object_list %}
+		<tr>
+			<td>{{record.id}}</td>
+      	    <td><a href="?resulttype={{result_typeObj.uniquename}}&amp;item={{record.id}}{{newurl_stub}}" title="show details">
+				{{record|capfirst|default:"<i>item empty (check DB for deletion)</i>"}}
+		    	</a></td>
+		</tr>
+		{% endfor %}
+
+    </tbody>
+
+
+</table>

@@ -1,0 +1,41 @@
+
+{# modify this template and put it into your project level template folder to customize it #}
+
+
+
+
+<!-- hidden fields useful to store data -->
+<input type="hidden" id="active_ordering" value="default" />
+<!-- end of hidden fields -->
+	
+
+
+<h1>Record: {{single_item}} 
+	<span id="rec_num" style="display:none;">1</span>
+	<small class="smalllinks">
+		<a {% if single_item.prev %}href="?resulttype={{result_typeObj.uniquename}}&amp;item={{single_item.prev}}{{newurl_stub}}"{% endif %}>prev</a> |
+		<a {% if single_item.next %}href="?resulttype={{result_typeObj.uniquename}}&amp;item={{single_item.next}}{{newurl_stub}}"{% endif %}>next</a> | 
+		{% if single_item.fullrecord %}<a href="{{single_item.get_absolute_url}}">full record</a> |{% endif %}	
+		<a title="Back to the results page" href="?resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">search results</a>
+	</small>
+</h1>
+
+
+<table class="simple headersX">
+    <tbody>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+		{% for field, value in single_item.fields.items %}
+		<tr>
+	        <td>{{field}}</td>
+			<td>{{value}}</td>
+      	</tr>
+		{% endfor %}
+
+    </tbody>
+
+
+</table>
+

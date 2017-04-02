@@ -1,0 +1,60 @@
+
+{# THIS IS A CUSTOMIZED VERSION OF <templates/djfacet/results/generic_item.html> #}
+
+
+<!-- hidden fields useful to store data -->
+<input type="hidden" id="active_ordering" value="default" />
+<!-- end of hidden fields -->
+
+
+
+<h1>Record: {{single_item}} 
+	<span id="rec_num" style="display:none;">1</span>
+	<small class="smalllinks">
+		<a {% if single_item.prev %}href="?resulttype={{result_typeObj.uniquename}}&amp;item={{single_item.prev}}{{newurl_stub}}"{% endif %}>prev</a> |
+		<a {% if single_item.next %}href="?resulttype={{result_typeObj.uniquename}}&amp;item={{single_item.next}}{{newurl_stub}}"{% endif %}>next</a> | 
+		{% if single_item.fullrecord %}<a href="{{single_item.get_absolute_url}}">full record</a> |{% endif %}	
+		<a title="Back to the results page" href="?resulttype={{result_typeObj.uniquename}}{{newurl_stub}}">search results</a>
+	</small>
+</h1>
+
+
+
+<table class="simple headersX">
+    <tbody>
+		<tr>
+			<th scope="row">ID</th>
+			<td>{{ single_item.id }}</td>
+		</tr>
+		<tr>
+			<th scope="row">Name</th>
+			<td>{{ single_item.name }}</td>
+		</tr>
+		<tr>
+			<th scope="row">Population in 2000</th>
+			<td>{{ single_item.pop2000|default:"Not available" }}</td>
+		</tr>
+		<tr>
+			<th scope="row">Population in 2008</th>
+			<td>{{ single_item.pop2008|default:"Not available" }}</td>
+		</tr>
+		<tr>
+			<th scope="row">Within Region</th>
+			<td>{{ single_item.inregion|default:"Not available" }}</td>
+		</tr>		
+		{% for r in  single_item.religionincountry_set.all %}
+				<tr>
+				<th scope="row">Has Religion</th>
+				<td>{{ r.religion.name }} : {{r.percentage}} %</td>
+			</tr>
+		{% endfor %}
+    </tbody>
+
+
+</table>
+
+
+
+
+
+

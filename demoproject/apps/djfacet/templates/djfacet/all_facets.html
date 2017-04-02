@@ -1,0 +1,81 @@
+{% extends "djfacet/base.html" %}
+{% load djf_tags %}
+
+
+
+
+{% block header %}
+	
+			
+			{% include "djfacet/components/header.html" %}
+
+
+			{% include "djfacet/components/navbar.html" %}
+
+
+			{% include "djfacet/components/control_bar.html" %}
+	
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block contents %}
+
+
+
+<!-- SPLASHPAGE STARTS -->
+
+  <div class="splashPage">
+
+	{% for facetgroup, facet_and_values in facetgroups_and_facets reversed %}
+
+    <!-- {{facetgroup.uniquename}} group facet starts -->
+
+    <div id="countryGroup" class="line contentSection {% cycle "red" "gray" "green" "purple" "blue" "brown" %}">
+	{# <div id="{{facetgroup.uniquename}}" class="facetgroup_vertical" style="background: #{{facetgroup.bkcolor}}">   ==> we used to pass the color! #}
+ 
+       <h2 class="to_collapse {{facetgroup.uniquename}}_tip">{{facetgroup.label|upper}}</h2>	
+
+	
+		{% for tuple in facet_and_values %}  
+		
+		{% with tuple.0 as facet %}
+		{% with tuple.1|split_list as facetvalues %}
+						
+ 	      <!-- {{facet.uniquename}} unit starts -->
+
+	       <div class="unit size1of2 RegionName {% if facet.mptt %} istreefacet  {% endif %}"> 
+	          <section>
+	       		<h3>{{facet.name|capfirst}} <span class="info tip" title="{{facet.explanation}}"></span></h3>	
+                
+				{% block inner_facet_values %}  								
+
+					{# WE REMOVED THE twocolumnsflag OPTION for here: it's all done in the snippet #}					
+					{% include "djfacet/components/snippet_facet.html" %}
+
+						
+				{% endblock %}
+				
+	           </section>
+	        </div><!-- {{facet.uniquename}} unit ends -->
+			
+			
+		{% endwith %}
+		{% endwith %}
+		{% endfor %}	
+			
+
+	</div>  <!-- {{facetgroup.uniquename}} group facet ends -->
+	{% endfor %}
+
+
+  </div><!-- SPLASH PAGE ENDS -->
+
+
+{% endblock %}
+

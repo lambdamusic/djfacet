@@ -1,0 +1,95 @@
+{% extends "admin/change_list.html" %}
+{% load adminmedia admin_list i18n %}
+
+{% block extrahead %}
+{{ block.super }}
+
+<style type="text/css">
+    .page_marker { display:block; text-align: right; float: left; padding: 1px 1px 0 0; }
+    tr.cut { border: 2px dashed black; opacity: 0.5; }
+    .title-column { width: 450px; }
+
+</style>
+
+<script type="text/javascript">
+    /* This represents the current state of the page tree. Would need to be
+       refreshed if pages are moved or deleted, but for now that is not possible */
+    var tree_structure = {{ tree_structure|default:"{}" }};
+
+    /* After loading the page, show all root nodes */
+    $(function()
+        {
+        {% if is_popup %}
+        // resize window a bit, the default size is too small for the tree column
+        window.resizeTo(Math.min(window.outerWidth+300, screen.availWidth), window.outerHeight);
+        {% endif %}
+
+        $('table').hide(); /* hide table until set up */
+        $('a.paste_target').hide();
+
+        expand_sym = '<img alt="+" src="{{ FEINCMS_ADMIN_MEDIA }}img/disclosure-right.png">';
+        collapse_sym = '<img alt="-" src="{{ FEINCMS_ADMIN_MEDIA }}img/disclosure-down.png">';
+
+        /* If a parent filter is present, remove all leaf elements */
+        /* Must come before tree cleansing! */
+        $(".admin-filter-parent option").each(function(idx, opt)
+            {
+            valstr = $(opt).attr('value').split('=')[1]; // Ugh, extract page id from query string
+            if(valstr)
+                {
+                p = page(parseInt(valstr));
+                if(!p.children || p.children.length == 0)
+                   $(opt).replaceWith('');
+                }
+            });
+
+        tree_structure_clean(); /* reduce structure to actually present items */
+
+        root_items = [];
+        for(k in tree_structure)
+            {
+            p = page(k);
+            if(p.ptr)
+                {
+                p.row.hide(); /* default hide */
+                /* Note all root (ie. has no parent) nodes */
+                if(!p.parent)
+                    root_items.push(p);
+                }
+            }
+
+        for(i in root_items)
+            {
+            p = root_items[i];
+            p.row.show();
+            if(p.open)
+                open_subtree(p.id);
+            }
+
+        /* yuck :-) */
+        $('table thead tr th:eq(1)').addClass('title-column');
+
+        /* Recolor lines to correctly alternate again */
+        $('tbody tr').removeClass('row1').removeClass('row2');
+        $('table').show();
+        recolor_lines();
+        });
+</script>
+
+{% endblock %}
+
+
+{% comment %}
+      {% block filters %}
+        {% if cl.has_filters %}
+          <div id="changelist-filter">
+            <h2>{% trans 'Filter' %}</h2>
+            {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+
+	<h3>Links</h3>
+	<li class="selected"><a href="#">Dings</a> </li>
+          </div>
+        {% endif %}
+
+      {% endblock %}
+{% endcomment %}

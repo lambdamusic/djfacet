@@ -1,0 +1,130 @@
+{# ps. the block declaration is needed because we may call this using 'render_block_to_string' #}
+
+
+
+{% block inner_facet_values %}
+	
+	{% if twocolumnsflag %}
+	
+
+	<!-- CASE 1: TWO COLUMNS ::::: EG IN THE SPLASH PAGE -->
+
+
+	
+	{% for facetvalue_group in facetvalues %}
+	<div class="unit size1of2 minHeight">
+		<ul>
+	
+		{% for facetvalue in facetvalue_group %}
+
+
+			{# here the anchor is given only if the results N is > TOTITEMS! #}
+
+			{% ifnotequal facetvalue.howmany  totitems  %}
+				<li><a href="{{url_prefix}}?filter={{facetvalue.id}}&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}"  id="{{facetgroup.uniquename}}_{{facetvalue.id}}" class="{{facet.name}} active" 
+					title="{% if facetvalue.subspreview  %}Subcategories:{% for e in facetvalue.subspreview %}&#13;{{e.name}}{% endfor %}	
+							{% else %}No subcategories{% endif %}"> 
+					{{facetvalue.displayname|capfirst|default:"---"}} ({{facetvalue.howmany|default:"0"}})							
+				</a> </li>					
+				
+				{# [  {{facetvalue.tot_all}}, {{facetvalue.tot_inbatch}}, {{facetvalue.tot_left}}] #}
+						
+			{% else %}	
+				<li><a class="inactive" title="Filter inactive because your search already produced {{totitems}} result{{totitems|pluralize}}">{{facetvalue.displayname|capfirst|default:"---"}} ({{facetvalue.howmany|default:"0"}})</a></li>							
+
+			{% endifnotequal %}
+
+
+		{% endfor %}
+
+		{#  LINK TO THE FACET-ALL-VALUES PAGE: for the moment only on the splash page #}	
+
+		{% if  forloop.last  and facetvalue_group.0.tot_left > 0 %} 
+
+			{% if djfacet_splashpage %}
+
+	  		<li>
+				<a href="{{url_prefix}}facet/{{facet.uniquename}}/?resulttype={{result_typeObj.uniquename}}&amp;totitems={{totitems}}{{newurl_stub}}" ><span > more...</span></a>    
+				
+				{# 2012-04-26:removed this cause the count was mistaken with MPTT  ...and {{facetvalue_group.0.tot_left}} more.</span></a>  #}
+				
+				
+			</li>
+
+			{% endif %}
+
+		{% endif %}
+		</ul>
+	</div>
+	{% endfor %}
+
+
+
+
+<!-- CASE 2: ONE COLUMN ::::: EG IN THE SEARCH RESULTS PAGE-->
+
+
+{% else %}	 {# TWOCOLUMNSFLAG = False #}
+
+
+
+<div class="facet">
+	<ul class="facetOptions resultsList">
+
+
+
+		{% if  facetvalues %}
+		
+		
+			{% for facetvalue in facetvalues %}
+
+
+			{# here the anchor is given only if the results N is > TOTITEMS! #}
+
+				{% ifnotequal facetvalue.howmany  totitems  %}
+					<li><a href="{{url_prefix}}?filter={{facetvalue.id}}&amp;resulttype={{result_typeObj.uniquename}}{{newurl_stub}}"  id="{{facetgroup.uniquename}}_{{facetvalue.id}}" class="{{facet.name}} active" 
+						title="{% if facetvalue.subspreview  %}Subcategories:{% for e in facetvalue.subspreview %}&#13;{{e.name}}{% endfor %}	
+								{% else %}No subcategories{% endif %}"> 
+						{{facetvalue.displayname|capfirst|default:"---"}} ({{facetvalue.howmany|default:"0"}})							
+					</a></li>							
+				{% else %}	
+					<li><a class="inactive" title="Filter inactive because your search already produced {{totitems}} result{{totitems|pluralize}}">{{facetvalue.displayname|capfirst|default:"---"}} ({{facetvalue.howmany|default:"0"}})</a></li>							
+
+				{% endifnotequal %}
+
+
+				{#  LINK TO THE FACET-ALL-VALUES PAGE: only if we have more values, or mptt #}
+				
+				{% if  forloop.last  and facetvalue.tot_left > 0 or forloop.last  and facet.mptt %} 
+
+		  		<li>
+					<a href="{{url_prefix}}facet/{{facet.uniquename}}/?resulttype={{result_typeObj.uniquename}}&amp;totitems={{totitems}}{{newurl_stub}}" ><span> more...</span></a>    
+				
+					{# 2012-04-26:removed this cause the count was mistaken with MPTT  ...and {{facetvalue.tot_left}} more.</span></a>  #}
+				</li>
+
+
+				{% endif %}
+			
+			{% endfor %}
+
+	
+		{% else %} 
+		
+			<i>No filters available</i>
+		
+		{% endif %} 
+	
+	
+	
+	</ul>
+</div>
+
+{% endif %}
+
+
+
+			
+{% endblock %}
+
+

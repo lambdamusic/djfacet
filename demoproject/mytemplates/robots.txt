@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: / # stay out of this site!
+
+
+# http://en.wikipedia.org/wiki/Robots.txt#Examples
